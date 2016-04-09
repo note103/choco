@@ -12,7 +12,8 @@ dirmove - move around directories.
 
     # Selecet a directory where you want to go.
     # If you've reached there, quit or kill process.
-    # `m` is an example name. See also: Installation.
+    # Command 'm' and Option 's' are example names.
+    ## See also: Installation.
 
 # DESCRIPTION
 
@@ -45,7 +46,7 @@ dirmove - move around directories.
         fi
     }
 
-    # `m` is an example name. Replace it with that you want.
+    # Command 'm' and Option 's' are example names. Replace it with that you want.
 
 # REQUIREMENT
 
