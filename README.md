@@ -2,19 +2,6 @@
 
 dirmove - move around directories.
 
-# SYNOPSIS
-
-    # General movement with peco
-    $ m
-
-    # Optional movement with sentaku
-    $ m s
-
-    # Selecet a directory where you want to go.
-    # If you've reached there, quit or kill process.
-    # Command 'm' and Option 's' are example names.
-    ## See also: Installation.
-
 # DESCRIPTION
 
 直感的な操作でディレクトリの深い階層へ進みます。
