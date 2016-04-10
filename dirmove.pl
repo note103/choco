@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use feature 'say';
 
 my $arg = shift;
 $arg = 1 unless $arg;
@@ -22,7 +23,18 @@ sub main {
         $selector = 'peco'
     }
 
-    $dir = `if [ -n "\$( ls -F "$pwd" | grep / )" ]; then ( ls -F "$pwd" | grep / | "$selector" ) else echo ''; fi 2>/dev/null`;
+    $dir = `
+    if [ -n "\$( ls -F "$pwd" | grep / )" ]; then
+        str="../\n"
+        str+=\$(ls -F "$pwd")
+        for i in \$str
+        do
+            echo \$i
+        done | "$selector"
+    else
+        echo ''
+    fi 2>/dev/null
+    `;
 
     # ディレクトリが無ければ（＝改行が戻り）脱出
     out($pwd) if ($dir =~ /\A\n\z/);
