@@ -23,10 +23,21 @@ sub main {
         $selector = 'peco'
     }
 
+    # 不可視チェック
+    my $option = '';
+    my $back = '';
+
+    if ($arg eq '.') {
+        $option = '-aF';
+    } else {
+        $option = '-F';
+        $back = "../\n";
+    }
+
     $dir = `
-    if [ -n "\$( ls -F "$pwd" | grep / )" ]; then
-        str="../\n"
-        str+=\$( ls -F "$pwd" | grep / )
+    if [ -n "\$( ls "$option" "$pwd" | grep / )" ]; then
+        str="$back"
+        str+=\$( ls "$option" "$pwd" | grep / )
         for i in \$str
         do
             echo \$i
