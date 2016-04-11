@@ -14,6 +14,17 @@ dirmove - move around directories.
 ### sentaku
 ![dirmove_sentaku](https://dl.dropboxusercontent.com/u/7779513/dirmove/dirmove_sentaku.gif)
 
+# SYNOPSIS
+
+    # With 'peco'.
+    $ m
+
+    # With 'sentaku'.
+    $ m s
+
+    # Include dot-directories.
+    $ m .
+
 # Installation
 
     # Install
