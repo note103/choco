@@ -36,14 +36,13 @@ sub main {
 
     $dir = `
     if [ -n "\$( ls "$option" "$pwd" | grep / )" ]; then
-        str="$back"
-        str+=\$( ls "$option" "$pwd" | grep / )
+        str="$back"\$( ls "$option" "$pwd" | grep / )
         for i in \$str
         do
             echo \$i
         done | "$selector"
     else
-        echo ''
+        echo "$back" | "$selector"
     fi 2>/dev/null
     `;
 
