@@ -26,7 +26,7 @@ sub main {
     $dir = `
     if [ -n "\$( ls -F "$pwd" | grep / )" ]; then
         str="../\n"
-        str+=\$(ls -F "$pwd")
+        str+=\$( ls -F "$pwd" | grep / )
         for i in \$str
         do
             echo \$i
