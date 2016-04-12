@@ -3,31 +3,44 @@ use strict;
 use warnings;
 use feature 'say';
 
-my $arg = shift;
-$arg = 1 unless $arg;
+my $args = shift;
+
+$args = 1 unless $args;
+my @args = split /\s+/, $args;
+
+my $attr = {};
+$attr->{option} = 1;
+$attr->{selector} = 1;
+
+for (@args) {
+    if ($_ eq 's') {
+        $attr->{selector} = 's';
+    } elsif ($_ eq '.') {
+        $attr->{option} = '.';
+    }
+}
 
 my $dir = '.';
 my $pwd = `pwd`;
 
-main($pwd, $dir, $arg);
+main($pwd, $dir, $args);
 
 sub main {
-    ($pwd, $dir, $arg) = @_;
+    ($pwd, $dir, $args) = @_;
     chomp($pwd);
 
-    # 選択（peco/sentaku）
     my $selector = '';
-    if ($arg eq 's') {
+    if ($attr->{selector} eq 's') {
         $selector = 'sentaku'
     } else {
         $selector = 'peco'
     }
 
     # 不可視チェック
-    my $option = '';
     my $back = '';
+    my $option = '';
 
-    if ($arg eq '.') {
+    if ($attr->{option} eq '.') {
         $option = '-aF';
     } else {
         $option = '-F';
@@ -36,7 +49,7 @@ sub main {
 
     $dir = `
     if [ -n "\$( ls "$option" "$pwd" | grep / )" ]; then
-        str="$back"\$( ls "$option" "$pwd" | grep / )
+        str=""\$( ls "$option" "$pwd" | grep / )
         for i in \$str
         do
             echo \$i
@@ -55,7 +68,7 @@ sub main {
     } else {
         $dir =~ s/\/$//;
         $pwd = "$pwd/$dir";
-        main($pwd, $dir, $arg);
+        main($pwd, $dir, $args);
     }
 }
 
