@@ -49,7 +49,7 @@ sub main {
 
     $dir = `
     if [ -n "\$( ls "$option" "$pwd" | grep / )" ]; then
-        str=""\$( ls "$option" "$pwd" | grep / )
+        str="$back"\$( ls "$option" "$pwd" | grep / )
         for i in \$str
         do
             echo \$i
