@@ -4,7 +4,7 @@ dirmove - move around directories.
 
 # DESCRIPTION
 
-直感的な操作でディレクトリの深い階層へ進みます。
+直感的な操作でディレクトリ間を移動します。
 
 # DEMO
 
