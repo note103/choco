@@ -16,14 +16,17 @@ dirmove - move around directories.
 
 # SYNOPSIS
 
-    # With 'peco'.
+    # with 'peco'.
     $ m
 
-    # With 'sentaku'.
+    # with 'sentaku'.
     $ m s
 
     # Include dot-directories.
     $ m .
+
+    # Include dot-directories with sentaku.
+    $ m s .    # or 'm . s'
 
 # Installation
 
@@ -33,8 +36,8 @@ dirmove - move around directories.
 
     # Edit .bashrc
     function m {
-        if [ "$1" = "s" ] ; then
-            DIR=$(perl ~/dirmove/dirmove.pl s);
+        if [ -n "$*" ] ; then
+            DIR=$(perl ~/dirmove/dirmove.pl "$*");
         else
             DIR=$(perl ~/dirmove/dirmove.pl);
         fi
