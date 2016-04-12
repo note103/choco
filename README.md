@@ -47,8 +47,6 @@ dirmove - move around directories.
         fi
     }
 
-    # Command 'm' and Option 's' are example names. Replace it with that you want.
-
 # REQUIREMENT
 
 - [peco](https://github.com/peco/peco)
