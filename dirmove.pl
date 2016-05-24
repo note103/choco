@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use feature 'say';
+use Time::Piece;
 
 my $args = shift;
 
@@ -47,12 +48,15 @@ sub main {
         $back = "../\n";
     }
 
+    my $tmp = localtime->datetime(T=>'-');
+    $tmp =~ s/:/-/g;
+
     $dir = `
     if [ -n "\$( ls "$option" "$pwd" | grep / )" ]; then
-        echo "$back" > tmp;
-        ls "$option" "$pwd" | grep / >> tmp;
-        cat tmp | "$selector";
-        rm tmp;
+        echo "$back" > $tmp;
+        ls "$option" "$pwd" | grep / >> $tmp;
+        cat $tmp | "$selector";
+        rm $tmp;
     else
         echo "$back" | "$selector"
     fi 2>/dev/null
