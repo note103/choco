@@ -18,13 +18,13 @@ dirmove - move around directories.
 
     1. Download a repogitory or the script 'dirmove.pl'.
 
-    2. Edit .bashrc (example)
-    function ch {
+    2. Edit .bashrc (example for Mac)
+    function dm {
         dir=$(perl /path/to/dirmove/dirmove.pl "$*")
         echo "$dir"
     }
-    function chopen {
-        arg=$(ch "$*")
+    function dfm {
+        arg=$(dm "$*")
         cd $(echo "$arg" | perl -pe 'chomp $_; s!\A(.+?)([^\/]+)\z!$1!')
         if [ ! -d "$arg" ] ; then open "$arg"; fi
     }
