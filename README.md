@@ -16,13 +16,11 @@ dirmove - move around directories.
 
 # Installation
 
-    # Download a repogitory or the script 'dirmove.pl'.
-    $ cd
-    $ git clone git@github.com:note103/dirmove.git
+    1. Download a repogitory or the script 'dirmove.pl'.
 
-    # Edit .bashrc (example)
+    2. Edit .bashrc (example)
     function ch {
-        dir=$(perl ~/repos/src/github.com/note103/_dev/dirmove/dirmove.pl "$*")
+        dir=$(perl /path/to/dirmove/dirmove.pl "$*")
         echo "$dir"
     }
     function chopen {
@@ -31,7 +29,7 @@ dirmove - move around directories.
         if [ ! -d "$arg" ] ; then open "$arg"; fi
     }
 
-    # Add alias (example)
+    3. Add alias (example)
     alias s=chopen
     alias p="chopen p"
 
