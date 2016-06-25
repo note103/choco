@@ -4,56 +4,41 @@ dirmove - move around directories.
 
 # DESCRIPTION
 
-直感的な操作でディレクトリ間を移動します。
+直感的な操作でファイル／ディレクトリを操作します。
 
 # DEMO
 
+### cho
+![dirmove_cho](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-25_sh_cho.gif)
+
 ### peco
-![dirmove_peco](https://dl.dropboxusercontent.com/u/7779513/dirmove/dirmove_peco.gif)
-
-### sentaku
-![dirmove_sentaku](https://dl.dropboxusercontent.com/u/7779513/dirmove/dirmove_sentaku.gif)
-
-# SYNOPSIS
-
-    # with 'peco'.
-    $ m
-
-    # with 'sentaku'.
-    $ m s
-
-    # Include dot-directories.
-    $ m .
-
-    # Include dot-directories with sentaku.
-    $ m s .    # or 'm . s'
+![dirmove_peco](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-25_sh_peco.gif)
 
 # Installation
 
-    # Install
+    # Download a repogitory or the script 'dirmove.pl'.
     $ cd
     $ git clone git@github.com:note103/dirmove.git
 
-    # Edit .bashrc
-    function m {
-        if [ -n "$*" ] ; then
-            DIR=$(perl ~/dirmove/dirmove.pl "$*");
-        else
-            DIR=$(perl ~/dirmove/dirmove.pl);
-        fi
-    
-        if [ -n "$DIR" ] ; then
-            cd "$DIR"
-        fi
+    # Edit .bashrc (example)
+    function ch {
+        dir=$(perl ~/repos/src/github.com/note103/_dev/dirmove/dirmove.pl "$*")
+        echo "$dir"
     }
+    function chopen {
+        arg=$(ch "$*")
+        cd $(echo "$arg" | perl -pe 'chomp $_; s!\A(.+?)([^\/]+)\z!$1!')
+        if [ ! -d "$arg" ] ; then open "$arg"; fi
+    }
+
+    # Add alias (example)
+    alias s=chopen
+    alias p="chopen p"
 
 # REQUIREMENT
 
+- [cho](https://github.com/mattn/cho)
 - [peco](https://github.com/peco/peco)
-
-## OPTION
-
-- [sentaku](https://github.com/rcmdnk/sentaku)
 
 # LICENSE
 
