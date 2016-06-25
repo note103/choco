@@ -30,8 +30,8 @@ dirmove - move around directories.
     }
 
     3. Add alias (example)
-    alias s=chopen
-    alias p="chopen p"
+    alias s=dfm
+    alias p="dfm p"
 
 # REQUIREMENT
 
