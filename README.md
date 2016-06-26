@@ -12,7 +12,7 @@ dirmove - move around directories.
 ![dirmove_cho](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-25_sh_cho.gif)
 
 ### peco
-![dirmove_peco](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-25_sh_peco.gif)
+![dirmove_peco](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-26_sh_peco.gif)
 
 # Installation
 
@@ -24,8 +24,9 @@ dirmove - move around directories.
         echo "$dir"
     }
     function dfm {
-        arg=$(dm "$*")
-        cd $(echo "$arg" | perl -pe 'chomp $_; s!\A(.+?)([^\/]+)\z!$1!')
+        local arg=$(ch "$*")
+        local basename=${arg##*/}
+        cd ${arg%%$basename}
         if [ ! -d "$arg" ] ; then open "$arg"; fi
     }
 
