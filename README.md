@@ -26,7 +26,7 @@ dirmove - move around directories.
     function dfm {
         local arg=$(ch "$*")
         local basename=${arg##*/}
-        cd "${arg%%"$basename"}"
+        cd "${arg%%$basename}"
         if [ ! -d "$arg" ] ; then open "$arg"; fi
     }
 
