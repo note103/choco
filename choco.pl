@@ -24,9 +24,6 @@ for (@args) {
         $back = 0;
         $option = '-aF';
     }
-    # else                {
-    #     out($pwd);
-    # }
 }
 
 my $dir = '.';
