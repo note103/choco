@@ -1,6 +1,6 @@
 # NAME
 
-dirmove - move around directories.
+choco - Move around directories and files conveniently.
 
 # DESCRIPTION
 
@@ -9,30 +9,37 @@ dirmove - move around directories.
 # DEMO
 
 ### cho
-![dirmove_cho](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-25_sh_cho.gif)
+![choco_cho](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-25_sh_cho.gif)
 
 ### peco
-![dirmove_peco](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-26_sh_peco.gif)
+![choco_peco](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-26_sh_peco.gif)
 
 # Installation
 
-    1. Download a repogitory or the script 'dirmove.pl'.
+    1. Download a repogitory or the script 'choco.pl'.
 
-    2. Edit .bashrc (example for Mac)
-    function dm {
-        dir=$(perl /path/to/dirmove/dirmove.pl "$*")
-        echo "$dir"
-    }
-    function dfm {
-        local arg=$(ch "$*")
+    2. Edit .bashrc
+
+    function choco {
+        local arg=$(perl /path/to/choco/choco.pl "$@")
         local basename=${arg##*/}
-        cd "${arg%%$basename}"
-        if [ ! -d "$arg" ] ; then open "$arg"; fi
+        local dirname="${arg%%$basename}"
+        cd "$dirname"
     }
 
     3. Add alias (example)
-    alias s=dfm
-    alias p="dfm p"
+
+    alias c="choco"
+    alias c.="choco ."
+    alias co="choco o"
+    alias co.="choco o ."
+
+    alias p="choco p"
+    alias p.="choco p ."
+    alias po="choco p o"
+    alias po.="choco p o ."
+
+    # option `o` is for Mac only.
 
 # REQUIREMENT
 
