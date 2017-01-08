@@ -14,7 +14,9 @@ my $command = 'echo';
 
 for (@args) {
     chomp $_;
-    if ( $_ =~ /p/)  { $selector = 'peco'; }
+    if ( $_ =~ /p/)  {
+        $selector = 'peco';
+    }
     elsif ( $_ =~ /o/) {
         $command = 'open';
     }
@@ -22,9 +24,9 @@ for (@args) {
         $back = 0;
         $option = '-aF';
     }
-    else                {
-        out($pwd);
-    }
+    # else                {
+    #     out($pwd);
+    # }
 }
 
 my $dir = '.';

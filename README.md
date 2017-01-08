@@ -25,6 +25,7 @@ choco - Move around directories and files conveniently.
         local basename=${arg##*/}
         local dirname="${arg%%$basename}"
         cd "$dirname"
+        echo $arg
     }
 
     3. Add alias (example)
