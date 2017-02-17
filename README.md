@@ -16,48 +16,52 @@ choco - Move around directories and files intuitively.
 
 # Installation
 
-    1. Download a repogitory or the script 'choco.pl'.
+1) Download a repogitory or the script 'choco.pl'.
 
-    2. Edit .bashrc
+2) Edit .bashrc
 
-    function dirmove {
-        local result="$1"
-        local basename=""
-        local dirname=""
+```bash
+function dirmove {
+    local result="$1"
+    local basename=""
+    local dirname=""
 
-        if [ -e "$result" ]; then
-            basename=${result##*/}
-            if [ -f "$result" ]; then
-                dirname="${result%%$basename}"
-            elif [ -d "$result" ]; then
-                dirname="$result"
-            fi
+    if [ -e "$result" ]; then
+        basename=${result##*/}
+        if [ -f "$result" ]; then
+            dirname="${result%%$basename}"
+        elif [ -d "$result" ]; then
+            dirname="$result"
         fi
-        cd "$dirname"
-    }
+    fi
+    cd "$dirname"
+}
 
-    function choco {
-        local command="${@:$#}"
-        local result=$(perl ~/path/to/choco/choco.pl "$@")
+function choco {
+    local command="${@:$#}"
+    local result=$(perl ~/path/to/choco/choco.pl "$@")
 
-        if  [ $# = 0 ] || [ "$command" = "-p" ] || [ "$command" = "-a" ]; then
-            command=echo
-        fi
+    if  [ $# = 0 ] || [ "$command" = "-p" ] || [ "$command" = "-a" ]; then
+        command=echo
+    fi
 
-        if  [ -e "$result" ]; then
-            dirmove "$result"
-        fi
-        $command $result
-    }
+    if  [ -e "$result" ]; then
+        dirmove "$result"
+    fi
+    $command $result
+}
+```
 
-    3. Add alias (example)
+3) Add alias (example)
 
-    alias s=choco
-    alias s.="choco -a"
-    alias j="choco -p open"
-    alias j.="choco -p -a open"
+```bash
+alias s=choco
+alias s.="choco -a"
+alias j="choco -p open"
+alias j.="choco -p -a open"
 
-    # `open` command is for OS X only.
+# `open` command is for OS X only.
+```
 
 # REQUIREMENT
 
