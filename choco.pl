@@ -7,23 +7,35 @@ use Time::Piece;
 my @args = @ARGV;
 
 my $back     = 1;
-my $option   = '-F';
-my $selector = 'cho';
-my $pwd = `pwd`; chomp $pwd; $pwd = $pwd.'/';
 my $command = 'echo';
+my $num = 1;
+my $option   = '-F';
+my $pwd = `pwd`; chomp $pwd; $pwd = $pwd.'/';
+my $selector = 'cho';
+my @num = ();
+
+my @arg = @ARGV;
+
+if (scalar(@arg) > 0) {
+    for (@arg) {
+        if ($_ eq "-p") {
+            $selector = "peco";
+        }
+        elsif ($_ eq "-a") {
+            $back = 0;
+            $option = '-aF';
+        }
+        elsif ( $_ =~ /\A(\d+)\z/) {
+            $num = $1;
+        }
+        else {
+            $command = $_;
+        }
+    }
+}
 
 for (@args) {
     chomp $_;
-    if ( $_ =~ /p/)  {
-        $selector = 'peco';
-    }
-    elsif ( $_ =~ /o/) {
-        $command = 'open';
-    }
-    elsif ( $_ =~ /\./) {
-        $back = 0;
-        $option = '-aF';
-    }
 }
 
 my $dir = '.';
@@ -65,24 +77,34 @@ sub main {
         main($pwd, $dir, @args);
     }
     elsif ($dir =~ /$quit/) {
-        out($pwd);
+        out($pwd, $dir, @args);
     }
     elsif ($dir =~ /[^\/]$/) {
         $pwd = "$pwd$dir";
-        out($pwd);
+        out($pwd, $dir, @args);
     }
     else {
-        out($pwd);
+        out($pwd, $dir, @args);
     }
 }
 
+my $res;
 sub out {
     $pwd = shift;
     $pwd =~ s/@\z//;
 
-    if ($command eq 'open' && -f $pwd) {
-        print `$command $pwd`;
+    $dir = shift;
+    @args = @_;
+
+    push @num, $pwd;
+    if ( scalar(@num) == $num ) {
+        print `echo @num`;
+        exit;
     }
-    print `echo $pwd`;
-    exit;
+    else {
+        if (-f $pwd) {
+            $pwd =~ s/(.+\/).+\z/$1/;
+        }
+        main($pwd, $dir, @args);
+    }
 }
