@@ -18,14 +18,16 @@ my @arg = @ARGV;
 
 if (scalar(@arg) > 0) {
     for (@arg) {
-        if ($_ eq "-p") {
-            $selector = "peco";
+        if ($_ =~ /-/) {
+            if ($_ =~ /p/) {
+                $selector = "peco";
+            }
+            if ($_ =~ /a/) {
+                $back = 0;
+                $option = '-aF';
+            }
         }
-        elsif ($_ eq "-a") {
-            $back = 0;
-            $option = '-aF';
-        }
-        elsif ( $_ =~ /\A(\d+)\z/) {
+        if ( $_ =~ /\A(\d+)\z/) {
             $num = $1;
         }
         else {

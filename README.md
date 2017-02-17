@@ -58,9 +58,9 @@ function choco {
 alias s=choco
 alias s.="choco -a"
 alias j="choco -p open"
-alias j.="choco -p -a open"
+alias j.="choco -ap open"
 
-# `open` command is for OS X only.
+# `open` command is for Mac only.
 ```
 
 # REQUIREMENT
