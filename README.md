@@ -41,8 +41,12 @@ function choco {
     local command="${@:$#}"
     local result=$(perl ~/path/to/choco/choco.pl "$@")
 
-    if  [ $# = 0 ] || [ "$command" = "-p" ] || [ "$command" = "-a" ]; then
+    if  [ $# = 0 ] ; then
         command=echo
+    elif [[ "$command" =~ - ]] ; then
+        if [[ "$command" =~ p ]] || [[ "$command" =~ a ]]; then
+            command=echo
+        fi
     fi
 
     if  [ -e "$result" ]; then
