@@ -1,6 +1,6 @@
 # NAME
 
-choco - Move around directories and files conveniently.
+choco - Move around directories and files intuitively.
 
 # DESCRIPTION
 
@@ -8,11 +8,11 @@ choco - Move around directories and files conveniently.
 
 # DEMO
 
-### cho
-![choco_cho](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-25_sh_cho.gif)
+### move by cho
+![choco_cho](./demo/choco_cho.gif)
 
-### peco
-![choco_peco](https://dl.dropboxusercontent.com/u/7779513/blog/2016-06-26_sh_peco.gif)
+### move by peco (using open command)
+![choco_peco](./demo/choco_peco_open.gif)
 
 # Installation
 
@@ -20,27 +20,44 @@ choco - Move around directories and files conveniently.
 
     2. Edit .bashrc
 
-    function choco {
-        local arg=$(perl /path/to/choco/choco.pl "$@")
-        local basename=${arg##*/}
-        local dirname="${arg%%$basename}"
+    function dirmove {
+        local result="$1"
+        local basename=""
+        local dirname=""
+
+        if [ -e "$result" ]; then
+            basename=${result##*/}
+            if [ -f "$result" ]; then
+                dirname="${result%%$basename}"
+            elif [ -d "$result" ]; then
+                dirname="$result"
+            fi
+        fi
         cd "$dirname"
-        echo $arg
+    }
+
+    function choco {
+        local command="${@:$#}"
+        local result=$(perl ~/path/to/choco/choco.pl "$@")
+
+        if  [ $# = 0 ] || [ "$command" = "-p" ] || [ "$command" = "-a" ]; then
+            command=echo
+        fi
+
+        if  [ -e "$result" ]; then
+            dirmove "$result"
+        fi
+        $command $result
     }
 
     3. Add alias (example)
 
-    alias c="choco"
-    alias c.="choco ."
-    alias co="choco o"
-    alias co.="choco o ."
+    alias s=choco
+    alias s.="choco -a"
+    alias j="choco -p open"
+    alias j.="choco -p -a open"
 
-    alias p="choco p"
-    alias p.="choco p ."
-    alias po="choco p o"
-    alias po.="choco p o ."
-
-    # option `o` is for Mac only.
+    # `open` command is for OS X only.
 
 # REQUIREMENT
 
