@@ -16,7 +16,7 @@ choco - Move around directories and files intuitively.
 
 # Installation
 
-1) Download a repogitory or the script 'choco.pl'.
+1) Download a repository or the script 'choco.pl'.
 
 2) Edit .bashrc
 
