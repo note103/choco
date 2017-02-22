@@ -8,11 +8,9 @@ my @args = @ARGV;
 
 my $back     = 1;
 my $command = 'echo';
-my $num = 1;
 my $option   = '-F';
 my $pwd = `pwd`; chomp $pwd; $pwd = $pwd.'/';
 my $selector = 'cho';
-my @num = ();
 
 my @arg = @ARGV;
 
@@ -26,9 +24,6 @@ if (scalar(@arg) > 0) {
                 $back = 0;
                 $option = '-aF';
             }
-        }
-        if ( $_ =~ /\A(\d+)\z/) {
-            $num = $1;
         }
         else {
             $command = $_;
@@ -66,11 +61,7 @@ sub main {
     chomp $dir;
     if ($dir=~ /\@$/) {
         $dir=~ s/\@$//;
-        unless (-e $dir) {
-            $dir= "$dir/";
-        } elsif (-d $dir) {
-            $dir= "$dir/";
-        }
+        $dir= "$dir/" if (-d $dir);
     }
 
     if ($dir =~ /(.+)(\/)\z/x) {
@@ -78,8 +69,9 @@ sub main {
         $pwd = "$pwd$base/";
         main($pwd, $dir, @args);
     }
-    elsif ($dir =~ /$quit/) {
-        out($pwd, $dir, @args);
+    elsif ($dir =~ /^$quit$/) {
+        print `echo $pwd`;
+        exit;
     }
     elsif ($dir =~ /[^\/]$/) {
         $pwd = "$pwd$dir";
@@ -98,15 +90,11 @@ sub out {
     $dir = shift;
     @args = @_;
 
-    push @num, $pwd;
-    if ( scalar(@num) == $num ) {
-        print `echo @num`;
+    if (-f $pwd) {
+        print `echo $pwd`;
         exit;
     }
     else {
-        if (-f $pwd) {
-            $pwd =~ s/(.+\/).+\z/$1/;
-        }
         main($pwd, $dir, @args);
     }
 }
