@@ -3,20 +3,19 @@ use strict;
 use warnings;
 use feature 'say';
 use Time::Piece;
-
-my @args = @ARGV;
+use Cwd;
 
 my $back     = 1;
-my $command = 'echo';
 my $option   = '-F';
-my $pwd = `pwd`; chomp $pwd; $pwd = $pwd.'/';
 my $selector = 'cho';
+my $pwd = Cwd::getcwd().'/';
 
+# オプション取得
 my @arg = @ARGV;
-
 if (scalar(@arg) > 0) {
     for (@arg) {
-        if ($_ =~ /-/) {
+        chomp $_;
+        if ($_ =~ /\A-\w/) {
             if ($_ =~ /p/) {
                 $selector = "peco";
             }
@@ -25,24 +24,24 @@ if (scalar(@arg) > 0) {
                 $option = '-aF';
             }
         }
-        else {
-            $command = $_;
-        }
     }
 }
 
-for (@args) {
-    chomp $_;
+my $dir = '.';
+
+# メインルーチン
+while (1) {
+    ($pwd, $dir) = run($pwd, $dir);
+
+    $pwd =~ s/@\z//;
+    if (-f $pwd) {
+        print `echo $pwd`;
+        last;
+    }
 }
 
-my $dir = '.';
-my $quit   = 'exit';
-my $epoch = localtime->epoch;
-
-main($pwd, $dir, @args);
-
-sub main {
-    ($pwd, $dir, @args) = @_;
+sub run {
+    my ($pwd, $dir) = @_;
     chomp($pwd);
 
     my $parent;
@@ -52,49 +51,37 @@ sub main {
         $parent = "";
     }
 
-    $dir = `
-        tmp=\$(ls "$option" "$pwd" | grep -e / | sed 's/ /$epoch/g')
-        rest=\$(ls "$option" "$pwd" | grep -v / | sed 's/ /$epoch/g')
-        for i in $quit $parent \$tmp \$rest ; do echo \$i | sed 's/$epoch/ /g'; done | $selector
-    `;
+    my $quit   = 'exit';
 
-    chomp $dir;
-    if ($dir=~ /\@$/) {
-        $dir=~ s/\@$//;
-        $dir= "$dir/" if (-d $dir);
-    }
+    while (1) {
+        my $epoch = localtime->epoch;
+        $dir = `
+            tmp=\$(ls "$option" "$pwd" | grep -e / | sed 's/ /$epoch/g')
+            rest=\$(ls "$option" "$pwd" | grep -v / | sed 's/ /$epoch/g')
+            for i in $quit $parent \$tmp \$rest ; do echo \$i | sed 's/$epoch/ /g'; done | $selector
+        `;
+        chomp $dir;
 
-    if ($dir =~ /(.+)(\/)\z/x) {
-        my $base = $1;
-        $pwd = "$pwd$base/";
-        main($pwd, $dir, @args);
-    }
-    elsif ($dir =~ /^$quit$/) {
-        print `echo $pwd`;
-        exit;
-    }
-    elsif ($dir =~ /[^\/]$/) {
-        $pwd = "$pwd$dir";
-        out($pwd, $dir, @args);
-    }
-    else {
-        out($pwd, $dir, @args);
-    }
-}
+        if ($dir=~ /\@$/) {
+            $dir=~ s/\@$//;
+            $dir= "$dir/" if (-d $dir);
+        }
 
-my $res;
-sub out {
-    $pwd = shift;
-    $pwd =~ s/@\z//;
-
-    $dir = shift;
-    @args = @_;
-
-    if (-f $pwd) {
-        print `echo $pwd`;
-        exit;
+        if ($dir =~ /(.+)(\/)\z/) {
+            my $base = $1;
+            $pwd = "$pwd$base/";
+        }
+        elsif ($dir =~ /^$quit$/) {
+            print `echo $pwd`;
+            exit;
+        }
+        elsif ($dir =~ /[^\/]$/) {
+            $pwd = "$pwd$dir";
+            last;
+        }
+        else {
+            last;
+        }
     }
-    else {
-        main($pwd, $dir, @args);
-    }
+    return ($pwd, $dir)
 }
