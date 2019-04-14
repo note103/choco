@@ -30,7 +30,7 @@ my $dir = '.';
 while (1) {
     ($pwd, $dir) = run($pwd, $dir);
 
-    $pwd =~ s/@\z//;
+    $pwd =~ s/[\@\*]\z//;
     if (-f $pwd) {
         print `echo $pwd`;
         last;
@@ -59,8 +59,8 @@ sub run {
         `;
         chomp $dir;
 
-        if ($dir=~ /\@$/) {
-            $dir=~ s/\@$//;
+        if ($dir=~ /[\@\*]\z/) {
+            $dir=~ s/[\@\*]\z//;
             $dir= "$dir/" if (-d $dir);
         }
 
