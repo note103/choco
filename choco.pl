@@ -68,11 +68,11 @@ sub run {
             my $base = $1;
             $pwd = "$pwd$base/";
         }
-        elsif ($dir =~ /^$quit$/) {
+        elsif ($dir =~ /\A$quit\z/) {
             print `echo $pwd`;
             exit;
         }
-        elsif ($dir =~ /[^\/]$/) {
+        elsif ($dir =~ /[^\/]\z/) {
             $pwd = "$pwd$dir";
             last;
         }
