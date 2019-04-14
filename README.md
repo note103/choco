@@ -21,56 +21,44 @@ choco - Move around directories and files intuitively.
 2) Edit .bashrc
 
 ```bash
-function dirmove {
-    local result="$1"
-    local basename=""
-    local dirname=""
+function choco {
+    local path=$(perl /path/to/choco/choco.pl $@)
+    if [ -f "$path" ]; then
+        $1 $path
+    fi
 
-    if [ -e "$result" ]; then
-        basename=${result##*/}
-        if [ -f "$result" ]; then
-            dirname="${result%%$basename}"
-        elif [ -d "$result" ]; then
-            dirname="$result"
-        fi
+    local basename=${path##*/}
+    local dirname=""
+    if [ -f "$path" ]; then
+        dirname="${path%%$basename}"
+    elif [ -d "$path" ]; then
+        dirname="$path"
     fi
     cd "$dirname"
-}
-
-function choco {
-    local command="${@:$#}"
-    local result=$(perl ~/path/to/choco/choco.pl "$@")
-
-    if  [ $# = 0 ] ; then
-        command=echo
-    elif [[ "$command" =~ - ]] ; then
-        if [[ "$command" =~ p ]] || [[ "$command" =~ a ]]; then
-            command=echo
-        fi
-    fi
-
-    if  [ -e "$result" ]; then
-        dirmove "$result"
-    fi
-    $command $result
 }
 ```
 
 3) Add alias (example)
 
 ```bash
-alias s=choco
-alias s.="choco -a"
-alias j="choco -p open"
-alias j.="choco -ap open"
+# use peco
+alias j=choco
+alias ja="choco -a"
 
-# `open` command is for Mac only.
+# use cho
+alias s=choco -s cho
+alias sa="choco -s cho -a"
+
+# use peco & open target file
+## `open` command is for Mac only.
+alias jo="choco open"
+alias jao="choco -a open"
 ```
 
 # REQUIREMENT
 
-- [cho](https://github.com/mattn/cho)
 - [peco](https://github.com/peco/peco)
+- [cho](https://github.com/mattn/cho)
 
 # LICENSE
 
