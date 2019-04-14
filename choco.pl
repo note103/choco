@@ -10,7 +10,6 @@ my $option   = '-F';
 my $selector = 'cho';
 my $pwd = Cwd::getcwd().'/';
 
-# オプション取得
 my @arg = @ARGV;
 if (scalar(@arg) > 0) {
     for (@arg) {
@@ -29,7 +28,6 @@ if (scalar(@arg) > 0) {
 
 my $dir = '.';
 
-# メインルーチン
 while (1) {
     ($pwd, $dir) = run($pwd, $dir);
 
