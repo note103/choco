@@ -16,9 +16,7 @@ GetOptions(
     ),
 );
 
-if ($opts->{help}) {
-    pod2usage;
-}
+pod2usage if ($opts->{help});
 
 my $selector = 'peco';
 if ($opts->{selector} eq 'cho') {
@@ -52,9 +50,9 @@ sub run {
 
     my $parent;
     if ( $parent_flag == 1 ) {
-        $parent = "../";
+        $parent = '../';
     } else {
-        $parent = "";
+        $parent = '';
     }
 
     my $quit   = 'exit';
