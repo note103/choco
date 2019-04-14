@@ -42,7 +42,7 @@ sub run {
     chomp($pwd);
 
     my $parent;
-    if ( $back == 1 ) {
+    if ( $parent_flag == 1 ) {
         $parent = "../";
     } else {
         $parent = "";
@@ -53,9 +53,9 @@ sub run {
     while (1) {
         my $epoch = localtime->epoch;
         $dir = `
-            tmp=\$(ls "$option" "$pwd" | grep -e / | sed 's/ /$epoch/g')
-            rest=\$(ls "$option" "$pwd" | grep -v / | sed 's/ /$epoch/g')
-            for i in $quit $parent \$tmp \$rest ; do echo \$i | sed 's/$epoch/ /g'; done | $selector
+            dirs=\$(ls "$ls_opts" "$pwd" | grep -e / | sed 's/ /$epoch/g')
+            files=\$(ls "$ls_opts" "$pwd" | grep -v / | sed 's/ /$epoch/g')
+            for i in $quit $parent \$dirs \$files ; do echo \$i | sed 's/$epoch/ /g'; done | $selector
         `;
         chomp $dir;
 
