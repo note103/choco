@@ -3,28 +3,28 @@ use strict;
 use warnings;
 use Time::Piece;
 use Cwd;
+use Smart::Options;
 
-my $back     = 1;
-my $option   = '-F';
-my $selector = 'cho';
-my $pwd = Cwd::getcwd().'/';
 
-my @arg = @ARGV;
-if (scalar(@arg) > 0) {
-    for (@arg) {
-        chomp $_;
-        if ($_ =~ /\A-\w/) {
-            if ($_ =~ /p/) {
-                $selector = "peco";
-            }
-            if ($_ =~ /a/) {
-                $back = 0;
-                $option = '-aF';
-            }
-        }
-    }
+my $opts = Smart::Options->new
+    ->default(selector => 'peco')->alias(s => 'selector')
+    ->alias(a => 'hidden')
+    ->parse;
+
+my $selector = 'peco';
+if ($opts->{selector} eq 'cho') {
+    $selector = $opts->{selector};
 }
 
+my $ls_opts = '-F';
+my $parent_flag = 1;
+
+if ($opts->{hidden}) {
+    $ls_opts = '-aF';
+    $parent_flag = 0;
+}
+
+my $pwd = Cwd::getcwd().'/';
 my $dir = '.';
 
 while (1) {
