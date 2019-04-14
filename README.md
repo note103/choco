@@ -16,7 +16,7 @@ choco - Move around directories and files intuitively.
 
 # Installation
 
-1) Download a repository or the script 'choco.pl'.
+1) Download a repository or the script `choco.pl`.
 
 2) Edit .bashrc
 
@@ -46,7 +46,7 @@ alias j=choco
 alias ja="choco -a"
 
 # use cho
-alias s=choco -s cho
+alias s="choco -s cho"
 alias sa="choco -s cho -a"
 
 # use peco & open target file
