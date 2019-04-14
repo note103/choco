@@ -4,6 +4,7 @@ use warnings;
 use Time::Piece;
 use Cwd;
 use Getopt::Long qw(:config posix_default gnu_compat);
+use Pod::Usage;
 
 my $opts = { selector => 'peco', };
 
@@ -14,6 +15,10 @@ GetOptions(
         help|h
     ),
 );
+
+if ($opts->{help}) {
+    pod2usage;
+}
 
 my $selector = 'peco';
 if ($opts->{selector} eq 'cho') {
@@ -86,3 +91,15 @@ sub run {
     }
     return ($pwd, $dir)
 }
+
+__END__
+
+=head1 SYNOPSIS
+
+choco [options] [FILE]
+
+Options:
+
+  -h --help            Show help
+  -s --selector        Set selector [default: peco]
+  -a --hidden          Add to target hidden files
