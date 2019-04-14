@@ -3,13 +3,17 @@ use strict;
 use warnings;
 use Time::Piece;
 use Cwd;
-use Smart::Options;
+use Getopt::Long qw(:config posix_default gnu_compat);
 
+my $opts = { selector => 'peco', };
 
-my $opts = Smart::Options->new
-    ->default(selector => 'peco')->alias(s => 'selector')
-    ->alias(a => 'hidden')
-    ->parse;
+GetOptions(
+    $opts => qw(
+        selector|s=s
+        hidden|a
+        help|h
+    ),
+);
 
 my $selector = 'peco';
 if ($opts->{selector} eq 'cho') {
