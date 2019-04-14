@@ -47,14 +47,9 @@ sub run {
     my ($pwd, $dir) = @_;
     chomp($pwd);
 
-    my $parent;
-    if ( $parent_flag == 1 ) {
-        $parent = '../';
-    } else {
-        $parent = '';
-    }
-
     my $quit   = 'exit';
+    my $parent = '';
+    $parent = '../' if ( $parent_flag == 1 );
 
     while (1) {
         $dir = `
