@@ -47,7 +47,6 @@ sub run {
     my ($pwd, $dir) = @_;
     chomp($pwd);
 
-    my $quit   = 'exit';
     my $parent = '';
     $parent = '../' if ( $parent_flag == 1 );
 
@@ -68,7 +67,7 @@ sub run {
             my $base = $1;
             $pwd = "$pwd$base/";
         }
-        elsif ($dir =~ /\A$quit\z/) {
+        elsif ($dir eq 'exit') {
             print `echo $pwd`;
             exit;
         }
@@ -82,6 +81,7 @@ sub run {
     }
     return ($pwd, $dir)
 }
+
 
 __END__
 
