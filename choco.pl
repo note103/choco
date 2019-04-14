@@ -1,7 +1,6 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Time::Piece;
 use Cwd;
 use Getopt::Long qw(:config posix_default gnu_compat);
 use Pod::Usage;
@@ -58,11 +57,10 @@ sub run {
     my $quit   = 'exit';
 
     while (1) {
-        my $epoch = localtime->epoch;
         $dir = `
-            dirs=\$(ls "$ls_opts" "$pwd" | grep -e / | sed 's/ /$epoch/g')
-            files=\$(ls "$ls_opts" "$pwd" | grep -v / | sed 's/ /$epoch/g')
-            for i in $quit $parent \$dirs \$files ; do echo \$i | sed 's/$epoch/ /g'; done | $selector
+            dirs=\$(ls "$ls_opts" "$pwd" | grep -e /)
+            files=\$(ls "$ls_opts" "$pwd" | grep -v /)
+            for i in exit $parent \$dirs \$files ; do echo \$i; done | $selector
         `;
         chomp $dir;
 
