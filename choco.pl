@@ -5,6 +5,7 @@ use Cwd;
 use Getopt::Long qw(:config posix_default gnu_compat);
 use Pod::Usage;
 
+
 my $opts = { selector => 'peco', };
 
 GetOptions(
@@ -16,6 +17,7 @@ GetOptions(
 );
 
 pod2usage if ($opts->{help});
+
 
 my $selector = 'peco';
 if ($opts->{selector} eq 'cho') {
@@ -63,15 +65,15 @@ sub run {
             $dir= "$dir/" if (-d $dir);
         }
 
-        if ($dir =~ /(.+)(\/)\z/) {
-            my $base = $1;
-            $pwd = "$pwd$base/";
-        }
-        elsif ($dir eq 'exit') {
+        if ($dir eq 'exit') {
             print `echo $pwd`;
             exit;
         }
-        elsif ($dir =~ /[^\/]\z/) {
+        elsif ($dir =~ m!(.+)/\z!) {
+            my $base = $1;
+            $pwd = "$pwd$base/";
+        }
+        elsif ($dir =~ m![^/]\z!) {
             $pwd = "$pwd$dir";
             last;
         }
