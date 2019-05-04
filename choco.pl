@@ -18,11 +18,7 @@ GetOptions(
 
 pod2usage if ($opts->{help});
 
-
-my $selector = 'peco';
-if ($opts->{selector} eq 'cho') {
-    $selector = $opts->{selector};
-}
+my $selector = $opts->{selector};
 
 my $ls_opts = '-F';
 my $parent_flag = 1;
