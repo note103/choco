@@ -8,11 +8,11 @@ choco - Move around directories and files intuitively.
 
 # DEMO
 
+### move by peco
+![choco_peco](./demo/choco_peco_open.gif)
+
 ### move by cho
 ![choco_cho](./demo/choco_cho.gif)
-
-### move by peco (using open command)
-![choco_peco](./demo/choco_peco_open.gif)
 
 # Installation
 
@@ -23,9 +23,6 @@ choco - Move around directories and files intuitively.
 ```bash
 function choco {
     local path=$(perl /path/to/choco/choco.pl $@)
-    if [ -f "$path" ]; then
-        $1 $path
-    fi
 
     local basename=${path##*/}
     local dirname=""
@@ -51,8 +48,8 @@ alias sa="choco -s cho -a"
 
 # use peco & open target file
 ## `open` command is for Mac only.
-alias jo="choco open"
-alias jao="choco -a open"
+alias jo="choco -c open"
+alias jao="choco -a -c open"
 ```
 
 # REQUIREMENT
