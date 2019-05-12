@@ -33,25 +33,25 @@ if ($opts->{hidden}) {
     $parent_flag = 0;
 }
 
-my $pwd = Cwd::getcwd().'/';
+my $path = Cwd::getcwd().'/';
 my $dir = '.';
 
 while (1) {
-    ($pwd, $dir) = run($pwd, $dir);
+    ($path, $dir) = run($path, $dir);
 
     # シンボリックリンク及び実行ファイルの末尾記号を削除
-    $pwd =~ s/[\@\*]\z//;
+    $path =~ s/[\@\*]\z//;
 
-    if (-f $pwd) {
-        print `$command $pwd`;
-        print `echo $pwd` unless $command eq 'echo';
+    if (-f $path) {
+        print `$command $path`;
+        print `echo $path` unless $command eq 'echo';
         last;
     }
 }
 
 sub run {
-    my ($pwd, $dir) = @_;
-    chomp($pwd);
+    my ($path, $dir) = @_;
+    chomp($path);
 
     my $parent = '';
     $parent = '../' if ( $parent_flag == 1 );
@@ -59,8 +59,8 @@ sub run {
     while (1) {
         # 一覧から選択
         $dir = `
-            dirs=\$(ls "$ls_opts" "$pwd" | grep -e /)
-            files=\$(ls "$ls_opts" "$pwd" | grep -v /)
+            dirs=\$(ls "$ls_opts" "$path" | grep -e /)
+            files=\$(ls "$ls_opts" "$path" | grep -v /)
             for i in exit $parent \$dirs \$files ; do echo \$i; done | $selector
         `;
         chomp $dir;
@@ -73,24 +73,24 @@ sub run {
         }
 
         if ($dir eq 'exit') {
-            print `echo $pwd`;
+            print `echo $path`;
             exit;
         }
         elsif ($dir =~ m!(.+)/\z!) {
             # ディレクトリならディレクトリ名をパスの末尾に付加して繰り返し継続
             my $base = $1;
-            $pwd = "$pwd$base/";
+            $path = "$path$base/";
         }
         elsif ($dir =~ m![^/]\z!) {
             # ファイルならファイル名をパスの末尾に付加して繰り返しから離脱
-            $pwd = "$pwd$dir";
+            $path = "$path$dir";
             last;
         }
         else {
             last;
         }
     }
-    return ($pwd, $dir)
+    return ($path, $dir)
 }
 
 
