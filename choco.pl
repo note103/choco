@@ -8,11 +8,13 @@ use Pod::Usage;
 
 my $opts = {
     selector => 'peco',
+    command => 'echo',
 };
 
 GetOptions(
     $opts => qw(
         selector|s=s
+        command|c=s
         hidden|a
         help|h
     ),
@@ -21,6 +23,7 @@ GetOptions(
 pod2usage if ($opts->{help});
 
 my $selector = $opts->{selector};
+my $command = $opts->{command};
 
 my $ls_opts = '-F';
 my $parent_flag = 1;
@@ -40,7 +43,8 @@ while (1) {
     $path =~ s/[\@\*]\z//;
 
     if (-f $path) {
-        print `echo $path`;
+        print `$command $path`;
+        print `echo $path` unless $command eq 'echo';
         last;
     }
 }
