@@ -43,8 +43,8 @@ while (1) {
     $path =~ s/[\@\*]\z//;
 
     if (-f $path) {
-        print `$command $path`;
         print `echo $path` unless $command eq 'echo';
+        print `$command $path`;
         last;
     }
 }
