@@ -90,8 +90,7 @@ sub run {
             last;
         }
     }
-    # $path =~ s/\(/\\(/g;
-    # $path =~ s/\)/\\)/g;
+
     return ($path, $dir)
 }
 
